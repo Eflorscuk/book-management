@@ -92,6 +92,11 @@ Em uma nova aba, volte para o container de app e execute:
 php artisan migrate
 ```
 
+Execute o comando para povoar a tabelas do db para testes:
+```sh
+php artisan db:seed
+```
+
 Acesse o projeto
 [http://localhost:8989](http://localhost:8989)
 
@@ -161,3 +166,6 @@ return redirect('/')->with('error', 'Você não tem acesso a esta página.');
 ```sh
 php artisan make:controller BookController
 ```
+#### Configuração de Rotas em web.php
+
+#### Views em Blade
