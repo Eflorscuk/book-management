@@ -96,6 +96,8 @@ Acesse o projeto
 [http://localhost:8989](http://localhost:8989)
 
 ### Passos de criação do projeto
+
+#### Models e Migrations
 1. Criar o Model e Migration para Livros:
 ```sh
 php artisan make:model Book -m
@@ -135,3 +137,27 @@ Schema::table('users', function (Blueprint $table) {
 php artisan migrate
 ```
 
+7. Criar um middleware para verificar se o user é admin:
+```sh
+php artisan make:middleware AdminMiddleware
+```
+
+8. Inserir a verificação no AdminMiddleware.php:
+```dosini
+if (auth()->user() && auth()->user()->role == 'admin') {
+        return $next($request);
+    }
+
+return redirect('/')->with('error', 'Você não tem acesso a esta página.');
+```
+
+9. Inserir o alias em app/Http/Kernel.php :
+```dosini
+'admin' => \App\Http\Middleware\AdminMiddleware::class,
+```
+
+#### CRUD de Livros
+1. Crie o Controller para Livros
+```sh
+php artisan make:controller BookController
+```
