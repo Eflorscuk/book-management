@@ -12,6 +12,8 @@
         </form>
         @endauth
 
+
+
         <!-- Botão de hamburguer para dispositivos móveis -->
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -20,6 +22,9 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ml-auto">
                 <!-- Se o usuário estiver autenticado, mostrar opções de logout -->
+                @if(auth()->check() && auth()->user()->role === 'admin')
+                    <a href="{{ route('books.create') }}" class="btn btn-primary">Adicionar Livro</a>
+                @endif
                 @auth
                 <li class="nav-item">
                     <form method="POST" action="{{ route('logout') }}">
