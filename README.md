@@ -2,7 +2,7 @@
 
 ## Objetivo
 
-O presente projeto tem como objetivo em construir um sistema de gerenciamento de livros utilizando Laravel e seus recursos como Migrations, Seeders, Elloquent, Blade etc. O projeto foi desenvolvido a partir do IOS do Mac e também testado no Linux Ubuntu, contudo, as configurações de ambiente foram realizadas através de containeres com Docker e Docker-compose.
+O presente projeto tem como objetivo em construir um sistema de gerenciamento de livros utilizando Laravel e seus recursos como Migrations, Seeders, Elloquent, Blade etc. O projeto foi desenvolvido a partir do IOS do Mac e também testado no Linux Ubuntu, contudo, as configurações de ambiente foram realizadas através de containeres com Docker e Docker-compose. Para realizar autenticação, optei em usar o laravel/breeze.
 
 ## Passo a passo para rodar o projeto
 Clone o projeto e entre no mesmo:
@@ -74,5 +74,47 @@ Por fim, gere a migrate para o banco de dados:
 php artisan migrate
 ```
 
+Instale o Breeze com os comandos:
+```sh
+composer require laravel/breeze --dev
+```
+```sh
+php artisan breeze:install
+```
+
+Saia do container app e digite na raiz do projeto:
+```sh
+npm i && npm run dev
+```
+
+Em uma nova aba, volte para o container de app e execute:
+```sh
+php artisan migrate
+```
+
 Acesse o projeto
 [http://localhost:8989](http://localhost:8989)
+
+### Passos de criação do projeto
+1. Criar o Model e Migration para Livros:
+```sh
+php artisan make:model Book -m
+```
+2. Inserir as colunas necessárias para 
+a tabela de livros (books):
+```dosini
+Schema::create('books', function (Blueprint $table) {
+    $table->id();
+    $table->string('title');
+    $table->string('author');
+    $table->text('description');
+    $table->string('isbn');
+    $table->integer('quantity');
+    $table->timestamps();
+});
+```
+3. Rodar as Migrations no container:
+```sh
+php artisan migrate
+```
+

@@ -25,7 +25,7 @@
         <div class="flex flex-col gap-3 text-white">
 
             @forelse ($replies as $reply)
-                <div class="flex flex-col gap-4 dark:bg-gray-900 rounded p-4">
+                <div class="flex flex-col gap-4 rounded p-4">
                     <!-- Profile and Rating -->
                     <div class="flex justify justify-between">
                         <div class="flex gap-2">
