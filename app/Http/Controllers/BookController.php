@@ -34,7 +34,8 @@ class BookController extends Controller
             'quantity' => 'required|integer'
         ]);
 
-        Book::create($request->all());
+        Book::create($request->only(['title', 'author', 'description', 'isbn', 'quantity']));
+
         return redirect()->route('books.index')->with('success', 'Livro adicionado com sucesso');
     }
 
