@@ -118,3 +118,20 @@ Schema::create('books', function (Blueprint $table) {
 php artisan migrate
 ```
 
+4. Adicionar a coluna "role" (regra) na tabela "users" (usuários):
+```sh
+php artisan make:migration add_role_to_users_table --table=users
+```
+
+5. Inserir a nova regra na migration:
+```dosini
+Schema::table('users', function (Blueprint $table) {
+    $table->string('role')->default('user');
+});
+```
+
+6. Rode novamete a migration:
+```sh
+php artisan migrate
+```
+
