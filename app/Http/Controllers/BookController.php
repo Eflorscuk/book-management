@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Book;
 use Illuminate\Http\Request;
+use App\Http\Requests\BookRequest;
 
 class BookController extends Controller
 {
@@ -24,32 +25,30 @@ class BookController extends Controller
         return view('books.create');
     }
 
-    public function store(Request $request)
+    public function edit(Book $book)
     {
-        $request->validate([
-            'title' => 'required',
-            'author' => 'required',
-            'description' => 'required',
-            'isbn' => 'required',
-            'quantity' => 'required|integer'
-        ]);
+        return view('books.edit', compact('book'));
+    }
 
-        Book::create($request->only(['title', 'author', 'description', 'isbn', 'quantity']));
+    public function store(BookRequest $request)
+    {
+        Book::create($request->validated());
 
         return redirect()->route('books.index')->with('success', 'Livro adicionado com sucesso');
     }
 
-    public function update(Request $request, Book $book)
+    public function update(BookRequest $request, Book $book)
     {
-        $request->validate([
-            'title' => 'required',
-            'author' => 'required',
-            'description' => 'required',
-            'isbn' => 'required',
-            'quantity' => 'required|integer'
-        ]);
+        // $request->validate([
+        //     'title' => 'required',
+        //     'author' => 'required',
+        //     'description' => 'required',
+        //     'isbn' => 'required',
+        //     'quantity' => 'required|integer'
+        // ]);
 
-        $book->update($request->all());
+        $book->update($request->validated());
+
         return redirect()->route('books.index')->with('success', 'Livro atualizado com sucesso.');
     }
 
@@ -66,9 +65,8 @@ class BookController extends Controller
 
     public function reserve(Book $book)
     {
-        if($book->quantity > 0){
-            $book->quantity -= 1;
-            $book->save();
+        if ($book->quantity > 0) {
+            $book->decrement('quantity');
             return redirect()->route('books.index')->with('success', 'Livro reservado com sucesso.');
         }
 
@@ -77,8 +75,7 @@ class BookController extends Controller
 
     public function cancelReservation(Book $book)
     {
-        $book->quantity += 1;
-        $book->save();
+        $book->increment('quantity');
         return redirect()->route('books.index')->with('success', 'Reserva cancelada com sucesso.');
     }
 }
