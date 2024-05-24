@@ -102,7 +102,26 @@ Caso não chame todos os seeders, experimente utilizar o comando com o nome espe
 php artisan db:seed --class=NomeDoSeeder
 ```
 
+Os logins para acessar o sistema como admin e user são, respectivamente:
+```sh
+login: admin@example.com
+senha: admin
+```
+```sh
+login: user@example.com
+senha: user
+```
+
 Acesse o projeto
 [http://localhost:8989](http://localhost:8989)
 
+## Planejamento
+
+Utilizei UML para gerar um diagrama de classes para verificar quais seriam as principais classes das quais eu utilizaria para o projeto, após a definição, optei em utilizar o Laravel 10 com php 8.1, por ter uma maior familiaridade com esta versão de framework e da linguagem.
+
+Realizei a construção do ambiente em Docker e orquestração de containers utilizando docker-compose, pois, o objetivo é que, assim que terminado o projeto, o mesmo possa ser subido rapidamente para produção ou testado na máquina de outro colega sem problemas com versionamento ou OS.
+
+Feita a construção da imagem no Dockerfile para ajustar o app em PHP e o docker-compose.yml para demais configurações de ambiente (nginx, mysql, laravel, redis, php-my-admin), comecei a construção do projeto através da crianção das migrations, indo para as models e controllers, assim como, utilizei relations para realizar as relações de tabelas (users, books, lends). Utilizei seeders para alimentação da tabela users e books para também maior agilidade no processo de desenvolvimento e mock de dados. Também fiz um sistema do qual é necessário estar autênticado para poder navegar, sendo que o mesmo possuí dois níveis: admin e usuário comum. Existem funções que somente usuários admin poderão acessar no sistema, como: criação de novos livros, exclusão, etc.
+
+Por fim, realizei a construção das views utilizando Blade e Bootstrap para me ajudar na construção de layouts mais bonitos e responsivos. Comecei a implementação de testes com PHP Unit também.
 
