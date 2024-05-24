@@ -48,6 +48,8 @@ class BookController extends Controller
 
     public function destroy(Book $book)
     {
+        $user = auth()->user();
+        DB::table('lends')->where('user_id', $user->id)->where('book_id', $book->id)->delete();
         $book->delete();
         return redirect()->route('books.index')->with('success', 'Livro removido com sucesso.');
     }
