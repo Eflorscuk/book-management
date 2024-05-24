@@ -37,7 +37,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('books/{book}/edit', [BookController::class, 'edit'])->name('books.edit');
     Route::put('books/{book}', [BookController::class, 'update'])->name('books.update');
     Route::delete('books/{book}', [BookController::class, 'destroy'])->name('books.destroy');
-    Route::get('books/{book}', [BookController::class, 'show'])->name('books.show');
     Route::post('books/{book}/reserve', [BookController::class, 'reserve'])->name('books.reserve');
     Route::post('books/{book}/cancel', [BookController::class, 'cancelReservation'])->name('books.cancel');
 });

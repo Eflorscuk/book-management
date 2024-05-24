@@ -97,6 +97,11 @@ Execute o comando para povoar a tabelas do db para testes:
 php artisan db:seed
 ```
 
+Caso não chame todos os seeders, experimente utilizar o comando com o nome especiífico do seeder, dessa maneira:
+```sh
+php artisan db:seed --class=NomeDoSeeder
+```
+
 Acesse o projeto
 [http://localhost:8989](http://localhost:8989)
 

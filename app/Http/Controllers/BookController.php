@@ -39,14 +39,6 @@ class BookController extends Controller
 
     public function update(BookRequest $request, Book $book)
     {
-        // $request->validate([
-        //     'title' => 'required',
-        //     'author' => 'required',
-        //     'description' => 'required',
-        //     'isbn' => 'required',
-        //     'quantity' => 'required|integer'
-        // ]);
-
         $book->update($request->validated());
 
         return redirect()->route('books.index')->with('success', 'Livro atualizado com sucesso.');
@@ -58,15 +50,12 @@ class BookController extends Controller
         return redirect()->route('books.index')->with('success', 'Livro removido com sucesso.');
     }
 
-    public function show(Book $book)
-    {
-        return view('books.show', compact('book'));
-    }
-
     public function reserve(Book $book)
     {
+        $user = auth()->user();
         if ($book->quantity > 0) {
             $book->decrement('quantity');
+            $user->books_quantity+=1;
             return redirect()->route('books.index')->with('success', 'Livro reservado com sucesso.');
         }
 
@@ -75,7 +64,13 @@ class BookController extends Controller
 
     public function cancelReservation(Book $book)
     {
-        $book->increment('quantity');
-        return redirect()->route('books.index')->with('success', 'Reserva cancelada com sucesso.');
+        $user = auth()->user();
+        if ($user->books_quantity > 0) {
+            $user->books_quantity -=1;
+            $book->increment('quantity');
+            return redirect()->route('books.index')->with('success', 'Reserva cancelada com sucesso.');
+        }
+
+        return redirect()->route('books.index')->with('error', 'Você não tem reserva deste livro.');
     }
 }
