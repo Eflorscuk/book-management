@@ -32,13 +32,13 @@
                                 <button type="submit" class="btn btn-danger bg-danger mr-2">Excluir</button>
                             </form>
                             @endif
-                            <form action="{{ route('books.reserve', $book) }}" method="POST" style="display:inline-block;">
+                            <form action="{{ route('books.lend', $book) }}" method="POST" style="display:inline-block;">
                                 @csrf
                                 <button type="submit" class="btn btn-success bg-success mr-2">Reservar</button>
                             </form>
-                            <form action="{{ route('books.cancel', $book) }}" method="POST" style="display:inline-block;">
+                            <form action="{{ route('books.return', $book) }}" method="POST" style="display:inline-block;">
                                 @csrf
-                                <button type="submit" class="btn btn-secondary bg-danger mr-2">Cancelar Reserva</button>
+                                <button type="submit" class="btn btn-secondary bg-danger mr-2">Devolver Livro</button>
                             </form>
                         </div>
                     </div>

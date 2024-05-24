@@ -21,7 +21,7 @@ class UserSeeder extends Seeder
                 'name' => 'Admin User',
                 'email' => 'admin@example.com',
                 'email_verified_at' => now(),
-                'password' => Hash::make('admin'), // Definindo a senha como 'password'
+                'password' => Hash::make('admin'),
                 'remember_token' => Str::random(10),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -32,7 +32,7 @@ class UserSeeder extends Seeder
                 'name' => 'Normal User',
                 'email' => 'user@example.com',
                 'email_verified_at' => now(),
-                'password' => Hash::make('user'), // Definindo a senha como 'password'
+                'password' => Hash::make('user'),
                 'remember_token' => Str::random(10),
                 'created_at' => now(),
                 'updated_at' => now(),

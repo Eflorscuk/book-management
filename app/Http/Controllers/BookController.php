@@ -3,15 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
+use App\Models\Lend;
 use Illuminate\Http\Request;
 use App\Http\Requests\BookRequest;
+use Illuminate\Support\Facades\DB;
 
 class BookController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('admin')->except(['index', 'show', 'reserve', 'cancelReservation']);
+        $this->middleware('admin')->except(['index', 'show', 'lend', 'return']);
     }
 
     public function index()
@@ -50,27 +52,32 @@ class BookController extends Controller
         return redirect()->route('books.index')->with('success', 'Livro removido com sucesso.');
     }
 
-    public function reserve(Book $book)
+    public function lend(Book $book)
     {
         $user = auth()->user();
+
         if ($book->quantity > 0) {
+            $lend = Lend::create([
+                'quantity' => 1,
+                'loan_date' => now(),
+                'book_id' => $book->id,
+                'user_id' => $user->id,
+            ]);
+
             $book->decrement('quantity');
-            $user->books_quantity+=1;
-            return redirect()->route('books.index')->with('success', 'Livro reservado com sucesso.');
+
+            return redirect()->route('books.index')->with('success', 'Livro emprestado com sucesso.');
         }
 
-        return redirect()->route('books.index')->with('error', 'Livro indisponível.');
-    }
+        return redirect()->route('books.index')->with('error', 'Livro indisponível para empréstimo.');
+}
 
-    public function cancelReservation(Book $book)
+    public function return(Book $book)
     {
         $user = auth()->user();
-        if ($user->books_quantity > 0) {
-            $user->books_quantity -=1;
-            $book->increment('quantity');
-            return redirect()->route('books.index')->with('success', 'Reserva cancelada com sucesso.');
-        }
-
-        return redirect()->route('books.index')->with('error', 'Você não tem reserva deste livro.');
+        $sql = "DELETE FROM lends WHERE user_id = :user_id";
+        DB::statement($sql, ['user_id' => $user]);
+        $book->increment('quantity');
+        return redirect()->route('books.index')->with('success', 'Livro devolvido com sucesso.');
     }
 }
