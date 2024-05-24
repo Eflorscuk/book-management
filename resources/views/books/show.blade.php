@@ -3,32 +3,31 @@
 @section('content')
 <div class="container">
     <h1>{{ $book->title }}</h1>
-    <div class="row">
-        <div class="col-md-8">
-            <p><strong>Autor:</strong> {{ $book->author }}</p>
-            <p><strong>Descrição:</strong> {{ $book->description }}</p>
-            <p><strong>ISBN:</strong> {{ $book->isbn }}</p>
-            <p><strong>Quantidade:</strong> {{ $book->quantity }}</p>
+    <form action="{{ route('books.update', $book) }}" method="POST">
+        @csrf
+        @method('PUT')
+        <div class="form-group">
+            <label for="title">Título:</label>
+            <input type="text" class="form-control" id="title" name="title" value="{{ $book->title }}">
         </div>
-        <div class="col-md-4">
-            <a href="{{ route('books.index') }}" class="btn btn-secondary mb-2">Voltar</a>
-            @can('admin')
-                <a href="{{ route('books.edit', $book) }}" class="btn btn-warning mb-2">Editar</a>
-                <form action="{{ route('books.destroy', $book) }}" method="POST" style="display:inline-block;">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn btn-danger mb-2">Excluir</button>
-                </form>
-            @endcan
-            <form action="{{ route('books.reserve', $book) }}" method="POST" style="display:inline-block;">
-                @csrf
-                <button type="submit" class="btn btn-success mb-2">Reservar</button>
-            </form>
-            <form action="{{ route('books.cancel', $book) }}" method="POST" style="display:inline-block;">
-                @csrf
-                <button type="submit" class="btn btn-secondary mb-2">Cancelar Reserva</button>
-            </form>
+        <div class="form-group">
+            <label for="author">Autor:</label>
+            <input type="text" class="form-control" id="author" name="author" value="{{ $book->author }}">
         </div>
-    </div>
+        <div class="form-group">
+            <label for="description">Descrição:</label>
+            <textarea class="form-control" id="description" name="description">{{ $book->description }}</textarea>
+        </div>
+        <div class="form-group">
+            <label for="isbn">ISBN:</label>
+            <input type="text" class="form-control" id="isbn" name="isbn" value="{{ $book->isbn }}">
+        </div>
+        <div class="form-group">
+            <label for="quantity">Quantidade:</label>
+            <input type="number" class="form-control" id="quantity" name="quantity" value="{{ $book->quantity }}">
+        </div>
+        <button type="submit" class="btn btn-primary">Atualizar</button>
+    </form>
+    <a href="{{ route('books.index') }}" class="btn btn-secondary mt-2">Voltar</a>
 </div>
 @endsection
